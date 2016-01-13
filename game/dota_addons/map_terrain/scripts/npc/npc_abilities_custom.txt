@@ -330,5 +330,279 @@
     "BaseClass"           "ability_datadriven"
     "AbilityTextureName"            "rubick_empty1"
   }
+
+    "zombie_rot_datadriven"
+  {
+    // General
+    //-------------------------------------------------------------------------------------------------------------
+    "BaseClass"       "ability_datadriven"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+    "FightRecapLevel"       "1"
+    "AbilityTextureName"      "broodmother_spawn_spiderlings"
+  
+    // Unit Targeting
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_BASIC"
+    "AbilityUnitDamageType"     "DAMAGE_TYPE_MAGICAL"
+    "SpellImmunityType"       "SPELL_IMMUNITY_ENEMIES_NO"
+  
+    // Stats
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityCastRange"        "700"
+    "AbilityCastPoint"        "0.2 0.2 0.2 0.2"
+    "AbilityCooldown"       "10.0 10.0 10.0 10.0"
+    "AbilityManaCost"       "120 120 120 120"
+    "AbilityDamage"         "10 20 30 40"
+
+    // Precache
+    //-------------------------------------------------------------------------------------------------------------
+    "precache"
+    {
+      "soundfile"     "soundevents/game_sounds_heroes/game_sounds_broodmother.vsndevts"
+      "particle"      "particles/units/heroes/hero_broodmother/broodmother_spiderlings_debuff.vpcf"
+      "particle"      "particles/units/heroes/hero_broodmother/broodmother_web_cast.vpcf"
+      "particle"      "particles/units/heroes/hero_broodmother/broodmother_spiderlings_spawn.vpcf"
+    }
+    // Stats
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilityModifierSupportValue" "0.0" // Modifier has no support value
+      
+    // Special
+    //-------------------------------------------------------------------------------------------------------------
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "buff_duration"     "30.0 30.0 30.0 30.0"
+      }
+      "02"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "spiderling_duration" "60.0 60.0 60.0 60.0"
+      }
+      "03"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "AbilityDamage"       "10 20 30 40"
+
+      }
+      "04"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "count"         "1 2 3 4"
+      }  
+      "05"
+    {
+      "var_type"        "FIELD_INTEGER"
+      "projectile_speed"  "1200"
+    }
+    "06"
+    {
+      "var_type"        "FIELD_FLOAT"
+      "tick_interval"     "1"
+      
+    }
+    }
+
+
+
+  "OnSpellStart"
+  {
+    "FireSound"
+    {
+      "EffectName"  "Hero_Broodmother.SpawnSpiderlingsCast"
+      "Target"    "CASTER"
+    }
+
+    "TrackingProjectile"
+    {
+      "Target" "TARGET"
+      "EffectName" "particles/units/heroes/hero_broodmother/broodmother_web_cast.vpcf"
+      "Dodgeable" "1"
+      "ProvidesVision" "0"
+      "MoveSpeed" "%projectile_speed"
+      "SourceAttachment" "DOTA_PROJECTILE_ATTACHMENT_ATTACK_1"
+    }
+  }
+  
+
+  "OnProjectileHitUnit"
+  {
+    "FireSound"
+    {
+      "EffectName"  "Hero_Broodmother.SpawnSpiderlingsImpact"
+      "Target"    "TARGET"
+    }
+
+    "ApplyModifier"
+    {
+      "ModifierName"  "modifier_zombie_rot_datadriven"
+      "Target"    "TARGET"
+    }
+
+    "ApplyModifier"
+    {
+      "ModifierName"  "modifier_zombie_rot_incubation"
+      "Target"    "TARGET"
+    }
+    
+  }
+
+  "Modifiers"
+  {
+    "modifier_zombie_rot_datadriven"
+    {
+      "Duration"  "%buff_duration"
+      "IsDebuff"  "1"
+      "IsPurgable"    "1"
+      "EffectName"  "particles/units/heroes/hero_broodmother/broodmother_spiderlings_debuff.vpcf"
+      "EffectAttachType"  "follow_origin"
+
+
+      "ThinkInterval"  "%tick_interval"
+      "OnIntervalThink"
+      {
+        "RunScript"
+        {
+          "ScriptFile"  "heroes/infestor/zombie_rot_lua.lua"
+          "Function"    "zombie_rot_incubation"
+
+          "zombie_rot_incubation"   "modifier_zombie_rot_incubation"
+          "zombie_rot_onset"      "modifier_zombie_rot_datadriven"
+        
+        }
+        "RunScript"
+        {
+          "ScriptFile"  "heroes/infestor/zombie_rot_lua.lua"
+          "Function"    "zombie_rot_damage"
+          
+          "zombie_rot_onset"      "modifier_zombie_rot_datadriven"
+        }
+
+      }
+      
+      "OnDeath"
+      {
+        "FireSound"
+        {
+          "EffectName"  "Hero_Broodmother.SpawnSpiderlings"
+          "Target"
+          {
+            "Center"  "UNIT"
+            "Flags"   "DOTA_UNIT_TARGET_FLAG_DEAD"
+          }
+        }
+
+        "FireEffect"
+        {
+          "EffectName"        "particles/units/heroes/hero_broodmother/broodmother_spiderlings_spawn.vpcf"
+          "EffectAttachType"  "follow_origin"
+          "Target"
+          {
+            "Center"  "UNIT"
+            "Flags"   "DOTA_UNIT_TARGET_FLAG_DEAD"
+          }
+        }
+
+        "SpawnUnit"
+        {
+          "UnitName"  "npc_dota_broodmother_spiderling"
+          "UnitCount" "%count"
+          "SpawnRadius" "50"
+          "Duration"  "%spiderling_duration"
+          "Target"
+          {
+            "Center"  "UNIT"
+            "Flags"   "DOTA_UNIT_TARGET_FLAG_DEAD"
+          }
+
+          "OnSpawn"
+          {
+            "ApplyModifier"
+            {
+              "ModifierName"  "modifier_phased"
+              "Target"    "TARGET"
+              "Duration"    "0.03"
+            }
+          }
+
+          "GrantsGold"  "1"
+          "GrantsXP"    "1"
+        }
+      }
+    }
+  
+
+    "modifier_zombie_rot_incubation"
+    {
+      "Passive"     "0"
+      "IsHidden"      "0"
+      "Duration"  "%buff_duration"
+      "IsDebuff"  "1"
+      "IsPurgable"    "1"
+      //Purge(bool RemovePositiveBuffs, bool RemoveDebuffs, bool BuffsCreatedThisFrameOnly, bool RemoveStuns, bool RemoveExceptions)
+
+    "ThinkInterval"  "%tick_interval"
+    "OnIntervalThink"
+    {
+      "RunScript"
+      {
+        "ScriptFile"  "heroes/infestor/zombie_rot_lua.lua"
+        "Function"    "zombie_rot_onset"
+        
+        "zombie_rot_incubation"   "modifier_zombie_rot_incubation"
+        "zombie_rot_onset"      "modifier_zombie_rot_datadriven"          
+      }
+    }
+    }
+    
+  }
+
+  }
+
+  "soul_siphon_datadriven"
+  {
+    "BaseClass"                 "ability_datadriven"
+  "AbilityTextureName"      "soul_siphon"
+  "MaxLevel"            "4"
+
+  "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+  "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+  "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_BASIC"
+  "AbilityUnitDamageType"     "DAMAGE_TYPE_PURE"
+  "AbilityCastRange"        "%AbilityCastRange"
+  "AbilityCastPoint"        "0.3"
+  "AbilityCastAnimation"      "ACT_DOTA_CAST_ABILITY_1"
+  "AbilityCooldown"       "10 8 6 4"
+  "AbilityManaCost"       "50"
+  "AbilityDamage"         "9999 9999 9999 9999"
+  "OnSpellStart"
+  {
+    "Damage"
+    {
+      "Target"    "TARGET"
+      "Type"      "DAMAGE_TYPE_PURE"
+      "Damage"    "%AbilityDamage"
+    }
+  }
+
+  "AbilitySpecial"
+  {
+    "01"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "AbilityCastRange"      "500 700 900 1100"
+    }
+    "02"
+    {
+      "var_type"      "FIELD_INTEGER"
+      "AbilityDamage"   "9999 9999 9999 9999"
+    }
+  }
+ 
+  }
+
 }
 
