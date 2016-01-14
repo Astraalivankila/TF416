@@ -337,8 +337,9 @@
     //-------------------------------------------------------------------------------------------------------------
     "BaseClass"       "ability_datadriven"
     "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-    "FightRecapLevel"       "1"
+    "FightRecapLevel"       "2"
     "AbilityTextureName"      "broodmother_spawn_spiderlings"
+    "AbilityType"           "DOTA_ABILITY_TYPE_ULTIMATE"
   
     // Unit Targeting
     //-------------------------------------------------------------------------------------------------------------
@@ -350,10 +351,10 @@
     // Stats
     //-------------------------------------------------------------------------------------------------------------
     "AbilityCastRange"        "700"
-    "AbilityCastPoint"        "0.2 0.2 0.2 0.2"
-    "AbilityCooldown"       "10.0 10.0 10.0 10.0"
-    "AbilityManaCost"       "120 120 120 120"
-    "AbilityDamage"         "10 20 30 40"
+    "AbilityCastPoint"        "0.2 0.2 0.2"
+    "AbilityCooldown"       "10.0 10.0 10.0"
+    "AbilityManaCost"       "120 120 120"
+    "AbilityDamage"         "10 20 30"
 
     // Precache
     //-------------------------------------------------------------------------------------------------------------
@@ -375,57 +376,57 @@
       "01"
       {
         "var_type"        "FIELD_FLOAT"
-        "buff_duration"     "30.0 30.0 30.0 30.0"
+        "buff_duration"     "30.0 30.0 30.0"
       }
       "02"
       {
         "var_type"        "FIELD_FLOAT"
-        "spiderling_duration" "60.0 60.0 60.0 60.0"
+        "spiderling_duration" "60.0 60.0 60.0"
       }
       "03"
       {
         "var_type"        "FIELD_INTEGER"
-        "AbilityDamage"       "10 20 30 40"
+        "AbilityDamage"       "10 20 30"
 
       }
       "04"
       {
         "var_type"        "FIELD_INTEGER"
-        "count"         "1 2 3 4"
+        "count"         "1 2 3"
       }  
       "05"
-    {
-      "var_type"        "FIELD_INTEGER"
-      "projectile_speed"  "1200"
-    }
-    "06"
-    {
-      "var_type"        "FIELD_FLOAT"
-      "tick_interval"     "1"
+      {
+        "var_type"        "FIELD_INTEGER"
+        "projectile_speed"  "1200"
+      }
+        "06"
+      {
+        "var_type"        "FIELD_FLOAT"
+        "tick_interval"     "1"
       
+      }
     }
-    }
 
 
 
-  "OnSpellStart"
-  {
-    "FireSound"
+    "OnSpellStart"
     {
-      "EffectName"  "Hero_Broodmother.SpawnSpiderlingsCast"
-      "Target"    "CASTER"
-    }
+      "FireSound"
+      {
+        "EffectName"  "Hero_Broodmother.SpawnSpiderlingsCast"
+       "Target"    "CASTER"
+     }
 
-    "TrackingProjectile"
-    {
-      "Target" "TARGET"
-      "EffectName" "particles/units/heroes/hero_broodmother/broodmother_web_cast.vpcf"
-      "Dodgeable" "1"
-      "ProvidesVision" "0"
-      "MoveSpeed" "%projectile_speed"
-      "SourceAttachment" "DOTA_PROJECTILE_ATTACHMENT_ATTACK_1"
+     "TrackingProjectile"
+     {
+       "Target" "TARGET"
+        "EffectName" "particles/units/heroes/hero_broodmother/broodmother_web_cast.vpcf"
+       "Dodgeable" "1"
+        "ProvidesVision" "0"
+       "MoveSpeed" "%projectile_speed"
+       "SourceAttachment" "DOTA_PROJECTILE_ATTACHMENT_ATTACK_1"
+     }
     }
-  }
   
 
   "OnProjectileHitUnit"
@@ -450,15 +451,15 @@
     
   }
 
-  "Modifiers"
-  {
-    "modifier_zombie_rot_datadriven"
-    {
-      "Duration"  "%buff_duration"
-      "IsDebuff"  "1"
-      "IsPurgable"    "1"
-      "EffectName"  "particles/units/heroes/hero_broodmother/broodmother_spiderlings_debuff.vpcf"
-      "EffectAttachType"  "follow_origin"
+    "Modifiers"
+   {
+      "modifier_zombie_rot_datadriven"
+      {
+        "Duration"  "%buff_duration"
+        "IsDebuff"  "1"
+        "IsPurgable"    "1"
+        "EffectName"  "particles/units/heroes/hero_broodmother/broodmother_spiderlings_debuff.vpcf"
+        "EffectAttachType"  "follow_origin"
 
 
       "ThinkInterval"  "%tick_interval"
@@ -565,7 +566,7 @@
   "soul_siphon_datadriven"
   {
     "BaseClass"                 "ability_datadriven"
-  "AbilityTextureName"      "soul_siphon"
+  "AbilityTextureName"      "undying_soul_rip"
   "MaxLevel"            "4"
 
   "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
@@ -603,6 +604,112 @@
   }
  
   }
+
+  "aura_of_the_dead_datadriven"
+  {
+
+    "BaseClass"                 "ability_datadriven"
+    "AbilityTextureName"        "skeleton_king_vampiric_aura"
+    "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_BOTH"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+  "AbilityCastPoint"    "1.5"
+   "AbilityCastRange"    "300 400 500 600"
+   "AbilityCooldown"    "20"
+   "AbilityManaCost"    "50"
+ 
+    "AbilitySpecial"
+   {
+     "01"
+     {
+       "var_type" "FIELD_INTEGER"
+       "Range" "300 400 500 600"
+     }
+     "02"
+     {
+      "var_type"  "FIELD_INTEGER"
+      "health_regen"  "2 4 6 8"
+     }
+     "03"
+     {
+      "var_type"  "FIELD_INTEGER"
+      "health_boost"  "20 40 60 80"
+     }
+     "04"
+     {
+      "var_type"  "FIELD_INTEGER"
+      "miss_chance"   "20 30 40 50"
+     }
+     "05"
+     {
+      "var_type"  "FIELD_INTEGER"
+      "duration"  "5 6 7 8"
+     }
+   }  
+
+   "OnSpellStart"
+   {
+      "ActOnTargets"
+      {
+        "Target"
+        {
+          "Center"        "CASTER"
+          "Radius"      "%Range"
+          "Teams"       "DOTA_UNIT_TARGET_TEAM_ENEMY"
+          "Types"       "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        } 
+
+        "Action"
+        {
+          "ApplyModifier"
+          {
+            "ModifierName"  "aotd_modifier_enemy"
+            "Target"     "TARGET"
+            "Duration"    "%duration"
+          }
+        }
+      }
+   }            
+ 
+   "Modifiers"
+   {
+    "aotd_modifier_friendly"
+    {
+      "Passive" "1"
+      "IsHidden" "1"
+      "Aura" "aotd_aura_modifier_friendly"
+     "Aura_Radius" "%Range"
+      "Aura_Teams" "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+      "Aura_Types" "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    }
+ 
+    "aotd_aura_modifier_friendly"
+    {
+      "IsDebuff"    "0"
+      "IsPurgable"  "0"
+      "Properties"
+      {
+        "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT"       "%health_regen"
+        "MODIFIER_PROPERTY_EXTRA_HEALTH_BONUS"          "%health_boost"
+      }
+
+    }
+
+    "aotd_modifier_enemy"
+    {
+      "IsDebuff"    "1"
+      "IsPurgable"  "0"
+      "Properties"
+      {
+        "MODIFIER_PROPERTY_MISS_PERCENTAGE"             "%miss_chance"
+      }
+    }
+  }
+
+  }
+
+
 
 }
 
