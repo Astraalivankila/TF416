@@ -709,6 +709,54 @@
 
   }
 
+  "placeholder_spawner"
+  {
+    "BaseClass"                 "ability_datadriven"
+    "AbilityBehavior"           "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+
+    "AbilityCastRange"        "100"
+    "AbilityCastPoint"        "0.3"
+    "AbilityCooldown"        "1.0"
+    "AbilityManaCost"        "0"
+
+    "Modifiers"
+    {
+      "modifier_name"
+      {
+        "Passive"      "1"
+        "IsHidden"      "0"
+        "IsDebuff"      "0"
+        
+    "ThinkInterval"  "1.0"
+    "OnIntervalThink"
+    {
+      "SpawnUnit"
+      {
+        "UnitName"    "npc_dota_creep_goodguys_melee"
+        "Target"     "CASTER"
+        "UnitCount"    "1"
+        "UnitLimit"    "0"
+        "GrantsGold"  "1"
+        "GrantsXP"    "1"
+        "SpawnRadius"  "10"
+        "OnSpawn"
+        {
+          "ApplyModifier"
+          {
+            "ModifierName"  "modifier_phased"
+            "Target"    "TARGET"
+            "Duration"    "0.03"
+          }
+      
+        }
+      }
+    }
+      }
+    }
+
+
+  }
+
 
 
 }
