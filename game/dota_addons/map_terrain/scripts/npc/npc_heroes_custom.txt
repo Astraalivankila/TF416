@@ -59,7 +59,7 @@
   "npc_dota_hero_infestor"
   {
     "override_hero"     "npc_dota_hero_necrolyte"
-    "Ability1"          "soul_siphon_datadriven"
+    "Ability1"          "plague_burst_datadriven"
     "Ability2"          "aura_of_the_dead_datadriven"
     "Ability3"          "warlock_upheaval"
     "Ability4"          "zombie_rot_datadriven"
