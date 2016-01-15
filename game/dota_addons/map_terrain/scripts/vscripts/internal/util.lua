@@ -104,3 +104,25 @@ function ShowWearables( event )
     v:RemoveEffects(EF_NODRAW)
   end
 end
+
+function AddStacks(ability, caster, unit, modifier, stack_amount, refresh)
+    if unit:HasModifier(modifier) then
+        if refresh then
+            ability:ApplyDataDrivenModifier(caster, unit, modifier, {})
+        end
+        unit:SetModifierStackCount(modifier, ability, unit:GetModifierStackCount(modifier, ability) + stack_amount)
+    else
+        ability:ApplyDataDrivenModifier(caster, unit, modifier, {})
+        unit:SetModifierStackCount(modifier, ability, stack_amount)
+    end
+end
+
+function RemoveStacks(ability, unit, modifier, stack_amount)
+    if unit:HasModifier(modifier) then
+        if unit:GetModifierStackCount(modifier, ability) > stack_amount then
+            unit:SetModifierStackCount(modifier, ability, unit:GetModifierStackCount(modifier, ability) - stack_amount)
+        else
+            unit:RemoveModifierByName(modifier)
+        end
+    end
+end
