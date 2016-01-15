@@ -70,4 +70,43 @@
     "override_hero"     "npc_dota_hero_furion"
     "Ability1"          "placeholder_spawner"
   }
+  "npc_dota_hero_stalker"
+  {
+    "override_hero"     "npc_dota_hero_bounty_hunter"
+    "Ability1"          "bounty_hunter_wind_walk"
+    "Ability2"          "slark_pounce"
+    "Ability3"          "ursa_fury_swipes"
+    "Ability4"          "bounty_hunter_track"
+  }
+  "npc_dota_hero_shoggoth"
+  {
+    "override_hero"     "npc_dota_hero_wisp"
+    "Ability1"          "alchemist_acid_spray"
+    "Ability2"          "doom_bringer_devour"
+    "Ability3"          "omniknight_degen_aura"
+    "Ability4"          "meepo_divided_we_stand"
+  }
+  "npc_dota_hero_minotaur"
+  {
+    "override_hero"     "npc_dota_hero_centaur"
+    "Ability1"          "tidehunter_kraken_shell"
+    "Ability2"          "centaur_double_edge"
+    "Ability3"          "centaur_hoof_stomp"
+    "Ability4"          "magnataur_skewer"
+  }
+  "npc_dota_hero_general"
+  {
+    "override_hero"     "npc_dota_hero_axe"
+    "Ability1"          "alpha_wolf_command_aura"
+    "Ability2"          "beastmaster_inner_beast"
+    "Ability3"          "slardar_amplify_damage"
+    "Ability4"          "centaur_stampede"
+  }
+  "npc_dota_hero_dhampir"
+  {
+    "Ability1"          "necrolyte_death_pulse"
+    "Ability2"          "dragon_knight_dragon_tail"
+    "Ability3"          "undying_tombstone"
+    "Ability4"          "leshrac_pulse_nova"
+  }
 }
