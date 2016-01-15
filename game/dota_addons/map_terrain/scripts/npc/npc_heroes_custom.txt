@@ -56,4 +56,18 @@
     "VisionDaytimeRange"    "1800"                  // Range of vision at night time.
     "VisionNighttimeRange"    "1800"                  // Range of vision at night time.
   }
+  "npc_dota_hero_infestor"
+  {
+    "override_hero"     "npc_dota_hero_necrolyte"
+    "Ability1"          "plague_burst_datadriven"
+    "Ability2"          "aura_of_the_dead_datadriven"
+    "Ability3"          "warlock_upheaval"
+    "Ability4"          "zombie_rot_datadriven"
+    
+  }
+  "npc_dota_hero_spawner"
+  {
+    "override_hero"     "npc_dota_hero_furion"
+    "Ability1"          "placeholder_spawner"
+  }
 }
