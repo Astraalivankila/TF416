@@ -805,7 +805,294 @@
 
   }
 
+"general_charge_datadriven"
+  {
+    "BaseClass"                 "ability_datadriven"
+    "AbilityTextureName"      "centaur_stampede"
+    "MaxLevel"            "3"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+    "AbilityType"         "DOTA_ABILITY_TYPE_ULTIMATE"    
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    "AbilityUnitDamageType"     "DAMAGE_TYPE_PHYSICAL"
+    "SpellImmunityType"       "SPELL_IMMUNE_ENEMIES_NO"
+
+    "AbilityCooldown"       "30 20 10"
+    "AbilityManaCost"       "100"
+    "AbilityDamage"         "100 150 200"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "movement_speed"  "522 622 722"
+      }
+      "02"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "stun_strength"   "1.0 1.5 2.0"
+      }
+      "03"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "duration"      "3.0 4.0 5.0" 
+      }
+      "04"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "radius"      "120"
+      }
+      "05"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "range"       "500 1000 1500"
+      }
+      "06"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "damage"      "100 150 200"
+      }
+    }
+
+    "OnSpellStart"
+    {
+      "RunScript"
+      {
+        "ScriptFile"    "heroes/general/General.lua"
+        "Function"      "GeneralCharge"
+
+        "modifier_charge" "modifier_general_charge"
+      }
+    }
+
+    "Modifiers"
+    {
+      "modifier_general_charge"
+      {
+        "Passive"     "0"
+        "IsHidden"      "0"
+        "IsDebuff"      "0"
+  
+
+        "Aura"            "modifier_general_charge_impact"
+        "Aura_Radius"       "%radius"
+        "Aura_Teams"        "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "Aura_Types"        "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"   
+
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE"  "%movement_speed"
+        }
+        "States"
+        {
+          "MODIFIER_STATE_NO_UNIT_COLLISION"    "MODIFIER_STATE_VALUE_ENABLED"
+        }       
+      }
+      "modifier_general_charge_impact"
+      {
+        "Passive"     "0"
+        "IsHidden"      "1"
+        "IsDebuff"      "1"
+
+        "OnCreated"
+        {
+          "RunScript"
+          {
+            "ScriptFile"  "heroes/general/General.lua"
+            "Function"    "GeneralChargeImpact"
+
+            "modifier_charge" "modifier_general_charge"           
+          }
+        }
+      }
+    }
 
 
+
+  }
+  "general_call_target_datadriven"
+  {
+    "BaseClass"                 "ability_datadriven"
+    "AbilityTextureName"      "kun_x_marks_the_spot"
+    "MaxLevel"            "4"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"   
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_ENEMY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+    "SpellImmunityType"       "SPELL_IMMUNE_ENEMIES_NO"
+
+    "AbilityCooldown"       "5 4 3 2"
+    "AbilityManaCost"       "10"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "value"       "900"
+      }
+      "02"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "duration"      "5.0 10.0 15.0 20.0"
+      }
+      "03"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "amplify"     "20 40 60 80"
+      }
+    }
+
+    "OnSpellStart"
+    {
+      "ApplyModifier"
+      {
+        "ModifierName"  "modifier_general_call_target"
+        "Target"    "TARGET"
+        "Duration"    "%duration"
+      }
+    }
+
+    "Modifiers"
+    {
+      "modifier_general_call_target"
+      {
+        "Passive"     "0"
+        "IsHidden"      "0"
+        "IsDebuff"      "1"
+        "IsPurgable"    "1"
+    
+    
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE"   "%amplify"
+        }
+      }
+    }
+
+  }
+  "general_battle_aura_datadriven"
+  {
+    "BaseClass"                 "ability_datadriven"
+    "AbilityTextureName"      "alpha_wolf_command_aura"
+    "MaxLevel"            "4"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_AURA | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "radius"        "900"
+      }
+      "02"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "dmg_boost"       "10 20 30 40"
+      }
+      "03"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "atk_boost"     "30 50 70 90"
+      }
+    }
+
+  "Modifiers"
+    {
+      "modifier_general_battle_aura"
+      {
+        "Passive"     "1"
+        "IsHidden"      "1"
+        "IsDebuff"      "0"
+    
+
+        "Aura"            "modifier_general_battle_aura_effect"
+        "Aura_Radius"     "%radius"
+        "Aura_Teams"      "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "Aura_Types"      "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "Aura_Flags"      "DOTA_UNIT_TARGET_FLAG_NONE"
+        "Aura_ApplyToCaster" "1"
+      }
+      "modifier_general_battle_aura_effect"
+      {
+        "IsHidden"      "0"
+        "IsPurgable"    "0"
+        "IsBuff"      "1"
+        "IsDebuff"      "0"
+
+        "Properties"
+        {
+          "MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT"  "%atk_boost"
+          "MODIFIER_PROPERTY_DAMAGEOUTGOING_PERCENTAGE" "%dmg_boost"
+        }
+
+      }
+    } 
+  }
+  "general_rally_datadriven"
+  {
+    "BaseClass"                 "ability_datadriven"
+    "AbilityTextureName"      "legion_commander_moment_of_courage"
+    "MaxLevel"            "4"
+    "AbilityBehavior"       "DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+    "AbilityUnitTargetTeam"     "DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+    "AbilityUnitTargetType"     "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+
+    "AbilityCooldown"       "20.0 18.0 16.0 14.0"
+    "AbilityManaCost"       "50 80 110 140"
+  
+    "AbilitySpecial"
+    {
+      "01"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "radius"        "400 500 600 700"
+      }
+      "02"
+      {
+        "var_type"      "FIELD_FLOAT"
+        "duration"        "1.0 1.0 1.0 1.0"
+      }
+      "03"
+      {
+        "var_type"      "FIELD_INTEGER"
+        "heal"        "10 15 20 25"
+      }
+
+    }
+
+    "OnSpellStart"
+    {
+      "RunScript"
+      {
+        "ScriptFile"    "heroes/general/General.lua"
+        "Function"      "GeneralRally"
+
+        "modifier_rally"  "modifier_rally_heal"
+      }
+    }
+    "Modifiers"
+    {
+      "modifier_rally_heal"
+      {
+        "Passive"     "0"
+        "IsHidden"      "0"
+        "IsDebuff"      "0"
+    
+    
+        "ThinkInterval"  "0.1"
+        "OnIntervalThink"
+        {
+          "RunScript"
+          {
+            "ScriptFile"  "heroes/general/General.lua"
+            "Function"    "GeneralRallyHeal"
+          }
+        }
+      }
+    }
+  }
 }
 

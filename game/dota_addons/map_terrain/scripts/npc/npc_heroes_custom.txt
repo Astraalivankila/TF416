@@ -97,10 +97,10 @@
   "npc_dota_hero_general"
   {
     "override_hero"     "npc_dota_hero_axe"
-    "Ability1"          "alpha_wolf_command_aura"
-    "Ability2"          "beastmaster_inner_beast"
-    "Ability3"          "slardar_amplify_damage"
-    "Ability4"          "centaur_stampede"
+    "Ability1"          "general_rally_datadriven"
+    "Ability2"          "general_battle_aura_datadriven"
+    "Ability3"          "general_call_target_datadriven"
+    "Ability4"          "general_charge_datadriven"
   }
   "npc_dota_hero_dhampir"
   {
