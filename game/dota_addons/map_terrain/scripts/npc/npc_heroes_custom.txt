@@ -104,6 +104,7 @@
   }
   "npc_dota_hero_dhampir"
   {
+    "override_hero"     "npc_dota_hero_pugna"
     "Ability1"          "necrolyte_death_pulse"
     "Ability2"          "dragon_knight_dragon_tail"
     "Ability3"          "undying_tombstone"
